@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+* {
+  font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+
+@media screen and (min-width:1024px) {
+  .navig{
+  position: sticky;
+  background: #000000a2;
+  color: aliceblue;
+  width: 100%;
+  padding: 0 12%;
+  }
+}
+@media screen and (max-width:769px) {
+  .navig{
+  position: sticky;
+  background: #fffffff9;
+  color: black;
+  }
+}
+
+::-webkit-scrollbar{
+  display: none;
+}

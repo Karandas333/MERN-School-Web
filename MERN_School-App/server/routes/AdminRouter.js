@@ -46,7 +46,10 @@ router.post('/adminLogin', async (req, res) => {
     expiresIn: maxAge,
   });
 
-  res.cookie("jwt", token);
+  res.cookie("jwt", token,{
+  secure: true,   // Only send cookies over HTTPS
+  sameSite: 'None', // Allow cross-site cookie sending
+});
   res.status(200).send('Login Sucessfull');
 })
 

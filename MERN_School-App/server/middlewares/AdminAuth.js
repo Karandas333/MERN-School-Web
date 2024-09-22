@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports.AdminAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const token = localStorage.getItem('jwt');
 
   if (token) {
     try {

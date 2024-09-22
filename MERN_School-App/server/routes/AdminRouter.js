@@ -48,7 +48,7 @@ router.post('/adminLogin', async (req, res) => {
 
   
   res.status(200).json({
-  token
+  token:token
   });
 })
 

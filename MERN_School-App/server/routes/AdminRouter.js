@@ -47,7 +47,7 @@ router.post('/adminLogin', async (req, res) => {
   });
 
   
-  res.status(200).json({
+  res.status(200).send({
   token:token
   });
 })

@@ -17,7 +17,7 @@ const AdminDashboard = () => {
     try {
       const response = await apiClient.get(VERIFY_ADMIN, { withCredentials: true ,
   headers: {
-    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
   },
 });
       if (response.status === 200) {

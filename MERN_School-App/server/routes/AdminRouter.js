@@ -47,9 +47,11 @@ router.post('/adminLogin', async (req, res) => {
   });
 
   res.cookie("jwt", token,{
-  secure: true,   // Only send cookies over HTTPS
-  sameSite: 'None', // Allow cross-site cookie sending
-});
+      httpOnly: true,   // Prevent access from JavaScript
+      secure: false,   // Only send cookies over HTTPS
+      sameSite:  'None', // Allow cross-site cookie sending in production
+      maxAge: maxAge * 1000, // Cookie expiration time in milliseconds
+    });
   res.status(200).send('Login Sucessfull');
 })
 

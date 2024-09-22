@@ -15,7 +15,11 @@ const AdminDashboard = () => {
   // Verify user authentication
   const verify = async () => {
     try {
-      const response = await apiClient.get(VERIFY_ADMIN, { withCredentials: true });
+      const response = await apiClient.get(VERIFY_ADMIN, { withCredentials: true ,
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+  },
+});
       if (response.status === 200) {
         setIsAuthenticated(true);
       } else {

@@ -23,7 +23,7 @@ const AdminAuth = () => {
       }
     );
     if (response.status === 200) {
-      aleart(response.data)
+      alert(response.data)
       localStorage.setItem('jwt',response.data.token)
       navigate('/admin/dashboard');
     }

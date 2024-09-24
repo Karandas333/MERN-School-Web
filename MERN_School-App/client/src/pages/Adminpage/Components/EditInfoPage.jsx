@@ -3,6 +3,7 @@ import { Input } from "../../../components/ui/input";
 import { Form } from "react-router-dom";
 import { apiClient } from "../../../lib/api-client";
 import { CREATE_INFO } from "../../../utiles/contants";
+import { FcAddImage } from "react-icons/fc";
 
 const EditInfoPage = () => {
   const [image, setImage] = useState('');
@@ -35,7 +36,7 @@ const EditInfoPage = () => {
 
       // Post the form data
       let response = await apiClient.post(CREATE_INFO, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },withCredentials:true
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
       if (response.status = 200) {
         setContent('')
@@ -51,7 +52,8 @@ const EditInfoPage = () => {
     <div className="w-full h-screen flex items-center justify-center">
       <div className="w-[80%] h-[20%] md:h-[80%] md:p-4 flex items-center content-center">
         <Form onSubmit={handlePostingInfoData} className="w-full h-full md:h-[350px] gap-8 p-3 flex" encType="multipart/form-data">
-          <label htmlFor="uploadImage" className={`md:w-[120px] w-20 h-20 md:h-[120px] bg-[url(${image !== '' ? image : 'https://i.postimg.cc/T2psd9Lp/pngwing.png'})] bg-center bg-cover`}>
+          <label htmlFor="uploadImage" className={`md:w-[120px] w-20 h-20 md:h-[120px] bg-[url(${image && image})] bg-center bg-cover`}>
+            <FcAddImage className={`w-full h-full ${image && 'hidden'}`} />
             <input onChange={handleImageChange} type="file" id="uploadImage" name="uploadImage" className="hidden" />
           </label>
           <div className="flex w-full md:w-2/3 h-full content-start gap-2 p-3 flex-col flex-wrap">

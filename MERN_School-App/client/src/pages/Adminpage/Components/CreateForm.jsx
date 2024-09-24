@@ -33,7 +33,7 @@ const CreateForm = () => {
   const handleAddInput = async () => {
     if (addInputName && addInputType) {
       try {
-        const response = await apiClient.post(CREATE_INPUT_FIELDS, { text: addInputName, type: addInputType },{withCredentials:true});
+        const response = await apiClient.post(CREATE_INPUT_FIELDS, { text: addInputName, type: addInputType });
         console.log('Debugger: ',response)
         if (response.status = 200) {
           setData(response.data)
@@ -49,7 +49,7 @@ const CreateForm = () => {
   // Delete Input Function
   const handleDeleteInput = (inputName,inputType) => {
     try {
-      const response = apiClient.post(DELETE_INPUT_FIELDS,{text:inputName,type:inputType},{withCredentials:true})
+      const response = apiClient.post(DELETE_INPUT_FIELDS,{text:inputName,type:inputType})
       if (response.status === 201) {
         setData(response.data)
       }
@@ -70,7 +70,7 @@ const CreateForm = () => {
   const handelSaveInput = () => {
     if (editToggle) {
       try {
-        const response = apiClient.post(UPDATE_INPUT_FIELDS, { text: addInputName, type: addInputType },{withCredentials:true})
+        const response = apiClient.post(UPDATE_INPUT_FIELDS, { text: addInputName, type: addInputType })
         if (response.status === 201) {
           setData(response.data)
         }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Input } from "../../../../components/ui/input";
 import { Form } from "react-router-dom";
+import { FcAddImage } from "react-icons/fc";
+
 
 const AddStaff = ({ handelToggle, handelEdit, loadStaffData, handelAddStaff }) => {
   const [image, setImage] = useState("");
@@ -63,9 +65,10 @@ const AddStaff = ({ handelToggle, handelEdit, loadStaffData, handelAddStaff }) =
         <label
           htmlFor="uploadPhoto"
           className={`md:w-[120px] rounded-md w-20 h-20 md:h-[120px] bg-[url(${
-            image !== "" ? image : "https://i.postimg.cc/T2psd9Lp/pngwing.png"
+            image &&  image 
           })] bg-center bg-cover`}
         >
+          <FcAddImage className={`w-full h-full ${image && 'hidden'}`} />
           {loadStaffData === null ? null : (
             loadStaffData.image === image && <img
               src={`${loadStaffData.image ? `data:image/jpeg;base64,${image}` : image}`}

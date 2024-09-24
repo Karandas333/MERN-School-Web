@@ -8,14 +8,14 @@ import EditStaffMembers from '../pages/Adminpage/Components/EditStaff/EditStaffM
 import AdminSidebar from '../components/AdminSidebar';
 import ErrorPage from '../components/ErrorPage';
 import { apiClient } from '../lib/api-client';
-import { HOST, VERIFY_ADMIN } from '../utiles/contants';
+import { VERIFY_ADMIN } from '../utiles/contants';
 
 const AdminDashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // Track auth status
   // Verify user authentication
   const verify = async () => {
     try {
-      const response = await apiClient.get(VERIFY_ADMIN, { withCredentials: true ,
+      const response = await apiClient.get(VERIFY_ADMIN, {
   headers: {
     'authorization': `Bearer ${localStorage.getItem('jwt')}`,
   },

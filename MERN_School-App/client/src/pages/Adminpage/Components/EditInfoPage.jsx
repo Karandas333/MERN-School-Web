@@ -1,76 +1,66 @@
-import { useState } from "react";
-import { Input } from "../../../components/ui/input";
-import { Form } from "react-router-dom";
-import { apiClient } from "../../../lib/api-client";
-import { CREATE_INFO } from "../../../utiles/contants";
-import { FcAddImage } from "react-icons/fc";
+const EditStaff = ({ handelDeleteStaff, data, handelToggle }) => {
+  const dateFormater = (date) => {
+    const [day, month, year] = date.split('-');
+  const formattedDate = new Date(`${year}-${month}-${day}`);
+  // Extract day, month, year from the Date object
+  const formattedDay = String(formattedDate.getDate()).padStart(2, '0'); // Ensures 2 digits for day
+  const formattedMonth = String(formattedDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
+  const formattedYear = formattedDate.getFullYear();
 
-const EditInfoPage = () => {
-  const [image, setImage] = useState('');
-  const [heading, setHeading] = useState('');
-  const [content, setContent] = useState('');
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0]; // Get the selected file
-    setImage(file); // Set the image in state
-
-    // Generate a preview URL
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImage(reader.result); // Set the preview URL in state
-    };
-    if (file) {
-      reader.readAsDataURL(file); // Read the file as a data URL
-    }
-  };
-
-  const handlePostingInfoData = async (event) => {
-    event.preventDefault(); // Prevent form submission
-
-    try {
-      // Create a FormData object for file and text data
-      const formData = new FormData();
-      formData.append("uploadImage", event.target.uploadImage.files[0]); // Add the file
-      formData.append("heading", heading); // Add heading
-      formData.append("content", content); // Add content
-
-      // Post the form data
-      let response = await apiClient.post(CREATE_INFO, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      if (response.status = 200) {
-        setContent('')
-        setHeading('')
-        setImage('')
-      }
-    } catch (error) {
-      console.log('Error:', error);
-    }
-  };
-
+  // Join them to form the desired format: dd-mm-yyyy
+  return (`${formattedDay}-${formattedMonth}-${formattedYear}`)
+  }
   return (
-    <div className="w-full h-screen flex items-center justify-center">
-      <div className="w-[80%] h-[20%] md:h-[80%] md:p-4 flex items-center content-center">
-        <Form onSubmit={handlePostingInfoData} className="w-full h-full md:h-[350px] gap-8 p-3 flex" encType="multipart/form-data">
-          <label htmlFor="uploadImage" className={`md:w-[120px] w-20 h-20 md:h-[120px] bg-[url(${image && image})] bg-center bg-cover`}>
-            <FcAddImage className={`w-full h-full ${image && 'hidden'}`} />
-            <input onChange={handleImageChange} type="file" id="uploadImage" name="uploadImage" className="hidden" />
-          </label>
-          <div className="flex w-full md:w-2/3 h-full content-start gap-2 p-3 flex-col flex-wrap">
-            <label htmlFor="heading" className='w-[70%]'>
-              <h3 className="text-2xl">Heading</h3>
-              <Input value={heading} onChange={(e) => setHeading(e.target.value)} id='heading' placeholder='Write heading name' name="heading" />
-            </label>
-            <label htmlFor="content" className='w-[70%]'>
-              <h3 className="text-2xl">Content</h3>
-              <textarea value={content} onChange={(e) => setContent(e.target.value)} className='w-full h-[100px] p-3 resize-none border-2 rounded-md' placeholder='Write Information' />
-            </label>
-            <button type="submit" className="max-w-20 py-2 px-4 rounded-md h-12 text-white bg-blue-500">Add</button>
-          </div>
-        </Form>
-      </div>
+    <div className="w-[90%] h-full overflow-y-auto relative">
+      <table className="w-full md:w-[90%] mt-5 h-12 ">
+        <thead className="sticky top-0 bg-white w-full z-10">
+          <tr>
+            <td className="lg:text-xl font-semibold">Photo</td>
+            <td className="lg:text-xl font-semibold">Full Name</td>
+            <td className="lg:text-xl font-semibold">Post</td>
+            <td className="lg:text-xl font-semibold">Subject</td>
+            <td className="lg:text-xl font-semibold">Join Date</td>
+            <td className="lg:text-xl font-semibold" colSpan={2}>
+              Edit & Delete
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((dataObj, index) => (
+            <tr key={index}>
+              <td>
+                <div className="w-14 h-14 rounded-full overflow-hidden">
+                  <img
+                    src={`data:image/jpeg;base64,${dataObj.image}`}
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
+              </td>
+              <td className="lg:text-lg">{dataObj.fullName}</td>
+              <td className="lg:text-lg">{dataObj.post}</td>
+              <td className="lg:text-lg">{dataObj.subject}</td>
+              <td className="lg:text-lg">{dateFormater(dataObj.joinDate)}</td>
+              <td className="lg:text-lg">
+                <button
+                  className="lg:w-28 w-15 h-12 bg-blue-400 text-white mt-0 text-16 px-4 py-2 rounded-md hover:bg-blue-500"
+                  onClick={() => handelToggle(dataObj)} // Pass the selected staff data to handelToggle
+                >
+                  Edit
+                </button>
+              </td>
+              <td className="text-lg">
+                <button
+                  onClick={()=>handelDeleteStaff(dataObj._id)}
+                  className="lg:w-28 w-15 h-12 bg-red-400 text-white mt-0 text-16 px-4 py-2 rounded-md hover:bg-red-500">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default EditInfoPage;
+export default EditStaff;
